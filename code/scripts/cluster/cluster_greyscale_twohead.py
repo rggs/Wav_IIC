@@ -353,7 +353,7 @@ def train(render_count=-1):
             loss, loss_no_lamb = IID_loss(x_outs[i], x_tf_outs[i],
                                           lamb=lamb)
             if avg_loss_batch is None:
-              avg_loss_batch = loss.clone()
+              avg_loss_batch = loss
               avg_loss_no_lamb_batch = loss_no_lamb
             else:
               avg_loss_batch += loss

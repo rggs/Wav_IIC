@@ -77,6 +77,9 @@ def save_progress(config, net, mapping_assignment_dataloader,
     # image = np.zeros((2 * (scale + border), 2 * (scale + border), 3),
     #                dtype=np.int32)
 
+    
+    #Plotting all samples; change here for dd routine; rather than iterating through all samples, we can instead simply feed the probability
+    #matrix through UMAP, and/or cluster and plot
     for i in range(num_samples):
       # in range [-1, 1] -> [0, 2 * scale] -> [border, 2 * scale + border]
       coord = get_coord(reordered_soft_preds[i, :], num_classes=config.gt_k)
@@ -93,6 +96,7 @@ def save_progress(config, net, mapping_assignment_dataloader,
     # add on the average image per cluster in the border
     # -------------------------
     # dataloaders not shuffled, or jittered here
+    # either get rid of this for custom dataset, or modify? Probably get rid of...
     averaged_imgs = [np.zeros((config.input_sz, config.input_sz, 1)) for _ in
                      range(config.gt_k)]
     averaged_imgs_norm = [0. for _ in range(config.gt_k)]

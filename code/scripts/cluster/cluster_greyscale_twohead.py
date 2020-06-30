@@ -21,6 +21,7 @@ from code.utils.cluster.data import cluster_twohead_create_dataloaders
 from code.utils.cluster.cluster_eval import cluster_eval, get_subhead_using_loss
 from code.utils.cluster.IID_losses import IID_loss
 from code.utils.cluster.render import save_progress
+from datasets.wavelets.wavelet_dset import WaveletDataset
 
 """
   Fully unsupervised clustering ("IIC" = "IID").
@@ -129,8 +130,13 @@ config.output_k = config.output_k_B  # for eval code
 assert (config.output_k_A >= config.gt_k)
 config.eval_mode = "hung"
 
-assert ("MNIST" == config.dataset)
-dataset_class = torchvision.datasets.MNIST
+#assert ("MNIST" == config.dataset)
+if config.dataset=="MNIST":
+  dataset_class = torchvision.datasets.MNIST
+elif config.dataset=="WAVELET":
+  dataset_class = WaveletDataset
+else:
+  assert (config.dataset=="MNIST" or config.dataset =="WAVELET")
 config.train_partitions = [True, False]
 config.mapping_assignment_partitions = [True, False]
 config.mapping_test_partitions = [True, False]

@@ -10,6 +10,7 @@ from code.utils.cluster.transforms import sobel_make_transforms, \
   greyscale_make_transforms
 from code.utils.semisup.dataset import TenCropAndFinish
 from .general import reorder_train_deterministic
+from datasets.wavelets.wavelet_dset import WaveletDataset
 
 
 # Used by sobel and greyscale clustering twohead scripts -----------------------
@@ -67,6 +68,17 @@ def cluster_twohead_create_dataloaders(config):
     config.mapping_test_partitions = [True, False]
 
     dataset_class = torchvision.datasets.MNIST
+
+    tf1, tf2, tf3 = greyscale_make_transforms(config)
+  
+  elif config.dataset == "WAVELET":
+    config.train_partitions_head_A = [True, False]
+    config.train_partitions_head_B = config.train_partitions_head_A
+
+    config.mapping_assignment_partitions = [True, False]
+    config.mapping_test_partitions = [True, False]
+
+    dataset_class = WaveletDataset
 
     tf1, tf2, tf3 = greyscale_make_transforms(config)
 
@@ -143,6 +155,15 @@ def cluster_create_dataloaders(config):
     config.mapping_test_partitions = [False]
 
     dataset_class = torchvision.datasets.MNIST
+
+    tf1, tf2, tf3 = greyscale_make_transforms(config)
+    
+  elif config.dataset == "WAVELET":
+    config.train_partitions = [True]
+    config.mapping_assignment_partitions = [True]
+    config.mapping_test_partitions = [False]
+
+    dataset_class = WaveletDataset
 
     tf1, tf2, tf3 = greyscale_make_transforms(config)
 
@@ -245,6 +266,29 @@ def make_MNIST_data(config, tf1=None, tf2=None, tf3=None,
 
   mapping_test_dataloader = _create_mapping_loader(
     config, torchvision.datasets.MNIST, tf3,
+    config.mapping_test_partitions)
+
+  if (tf1 is not None) and (tf2 is not None):
+    return dataloaders, mapping_assignment_dataloader, mapping_test_dataloader
+  else:
+    return mapping_assignment_dataloader, mapping_test_dataloader
+  
+  
+def make_WAVELET_data(config, tf1=None, tf2=None, tf3=None,
+                    truncate_assign=False, truncate_pc=None):
+  assert (tf3 is not None)
+  if (tf1 is not None) and (tf2 is not None):
+    dataloaders = _create_dataloaders(config, WaveletDataset, tf1,
+                                      tf2,
+                                      partitions=config.train_partitions_head_B)
+
+  mapping_assignment_dataloader = _create_mapping_loader(
+    config, WaveletDataset, tf3,
+    config.mapping_assignment_partitions,
+    truncate=truncate_assign, truncate_pc=truncate_pc)
+
+  mapping_test_dataloader = _create_mapping_loader(
+    config, WaveletDataset, tf3,
     config.mapping_test_partitions)
 
   if (tf1 is not None) and (tf2 is not None):

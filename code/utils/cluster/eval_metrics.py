@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import numpy as np
 import torch
+import scipy
 from sklearn import metrics
 #from sklearn.utils.linear_assignment_ import linear_assignment
 from scipy.optimize import linear_sum_assignment

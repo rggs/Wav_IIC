@@ -21,7 +21,11 @@ class WaveletDataset(Dataset):
 		self.target_transform=target_transform
 		
 		self.names=np.load(os.path.join(self.root_dir,'names_array.npy'))
-		self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
+		#self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
+		self.data=os.listdir(so.path.join(self.root,'processed_tensors'))
+		
+		self.data.sort()
+		self.names.sort()
 		
 	
 	def __len__(self):
@@ -29,8 +33,9 @@ class WaveletDataset(Dataset):
 	
 	def __getitem__(self,idx):
 
-		
-		img, name = self.data[idx], self.names[idx]
+		#This one is if you load the whole tensor:
+		#img, name = self.data[idx], self.names[idx]
+		img, name = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx]), self.names[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:

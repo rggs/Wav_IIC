@@ -20,8 +20,8 @@ class WaveletDataset(Dataset):
 		self.train=train
 		self.target_transform=target_transform
 		
-		self.names=np.load(os.path.join(self.root_dir,'processed','names_array.npy'))
-		self.data=torch.load(os.path.join(self.root_dir,'processed','image_tensor.pt'))
+		self.names=np.load(os.path.join(self.root_dir,'names_array.npy'))
+		self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
 		
 	
 	def __len__(self):

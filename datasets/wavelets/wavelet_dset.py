@@ -14,9 +14,11 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class WaveletDataset(Dataset):
-	def __init__(self, root_dir, transform=None, rgb=True):
-		self.root_dir=root_dir
+	def __init__(self, root, transform=None, train=True, target_transform=None):
+		self.root_dir=root
 		self.transform=transform
+		self.train=train
+		self.target_transform=target_transform
 		
 		self.names=np.load(os.path.join(self.root_dir,'processed','names_array.npy'))
 		self.data=torch.load(os.path.join(self.root_dir,'processed','image_tensor.pt'))

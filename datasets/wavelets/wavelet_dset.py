@@ -35,6 +35,6 @@ class WaveletDataset(Dataset):
 			img=self.transorm(img)
 			
 		if self.target_transform is not None:
-            name = self.target_transform(name)
+            		name = self.target_transform(name)
 		
 		return img, name

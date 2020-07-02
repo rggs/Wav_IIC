@@ -22,7 +22,7 @@ class WaveletDataset(Dataset):
 		
 		self.names=np.load(os.path.join(self.root_dir,'names_array.npy'))
 		#self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
-		self.data=os.listdir(so.path.join(self.root,'processed_tensors'))
+		self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
 		
 		self.data.sort()
 		self.names.sort()

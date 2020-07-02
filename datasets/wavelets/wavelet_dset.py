@@ -14,11 +14,12 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class WaveletDataset(Dataset):
-	def __init__(self, root, transform=None, train=True, target_transform=None):
+	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp'):
 		self.root=root
 		self.transform=transform
 		self.train=train
 		self.target_transform=target_transform
+		self.tmp=temp
 		
 		self.names=np.load(os.path.join(self.root,'names_array.npy'))
 		#self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
@@ -35,7 +36,7 @@ class WaveletDataset(Dataset):
 
 		#This one is if you load the whole tensor:
 		#img, name = self.data[idx], self.names[idx]
-		img, name = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx])), self.names[idx]
+		img, name = torch.load(os.path.join(self.tmp, 'processed_tensors',self.data[idx])), self.names[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:

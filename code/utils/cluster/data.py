@@ -312,6 +312,14 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
         split=train_partition,
         target_transform=target_transform,
         download=True)
+      
+    elif "WAVELET" == config.dataset:
+      train_imgs_curr = dataset_class(
+        root=config.dataset_root,
+        transform=tf1,
+        train=train_partition,
+        target_transform=target_transform, one_tnsr=config.one_tnsr)
+      
     else:
       train_imgs_curr = dataset_class(
         root=config.dataset_root,
@@ -349,6 +357,14 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
           transform=tf2,  # random per call
           split=train_partition,
           target_transform=target_transform)
+        
+      elif "WAVELET" == config.dataset:
+        train_imgs_tf_curr = dataset_class(
+          root=config.dataset_root,
+          transform=tf2,
+          train=train_partition,
+          target_transform=target_transform, one_tnsr=config.one_tnsr)
+        
       else:
         train_imgs_tf_curr = dataset_class(
           root=config.dataset_root,
@@ -402,6 +418,14 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
         transform=tf3,
         split=partition,
         target_transform=target_transform)
+      
+    elif "WAVELET" == config.dataset:
+      imgs_curr = dataset_class(
+        root=config.dataset_root,
+        transform=tf3,
+        train=train_partition,
+        target_transform=target_transform, one_tnsr=config.one_tnsr)
+      
     else:
       imgs_curr = dataset_class(
         root=config.dataset_root,

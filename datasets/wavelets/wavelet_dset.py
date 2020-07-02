@@ -24,7 +24,7 @@ class WaveletDataset(Dataset):
 		
 		self.names=np.load(os.path.join(self.root,'names_array.npy'))
 		if self.one_tnsr:
-			self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
+			self.data=torch.load(os.path.join(self.root,'image_tensor.pt'))
 		else:
 			self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
 		

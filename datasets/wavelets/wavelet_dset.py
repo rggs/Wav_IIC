@@ -35,7 +35,7 @@ class WaveletDataset(Dataset):
 
 		#This one is if you load the whole tensor:
 		#img, name = self.data[idx], self.names[idx]
-		img, name = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx]), self.names[idx]
+		img, name = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx])), self.names[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:

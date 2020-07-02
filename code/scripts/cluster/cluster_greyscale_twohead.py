@@ -113,6 +113,8 @@ parser.add_argument("--no_jitter", dest="no_jitter", default=False,
 parser.add_argument("--no_flip", dest="no_flip", default=False,
                     action="store_true")
 
+parser.add_argument("--one_tnsr", default=False, action="store_true")
+
 config = parser.parse_args()
 
 # Setup ------------------------------------------------------------------------

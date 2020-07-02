@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 from PIL import Image
+import glob
 
 # Ignore warnings
 import warnings
@@ -26,7 +27,8 @@ class WaveletDataset(Dataset):
 		if self.one_tnsr:
 			self.data=torch.load(os.path.join(self.root,'image_tensor.pt'))
 		else:
-			self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
+			#self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
+			self.data=glob.glob(os.path.join(self.root,'processed_tensors','*.pt'))
 		
 		self.data.sort()
 		self.names.sort()
@@ -41,7 +43,7 @@ class WaveletDataset(Dataset):
 		if self.one_tnsr:
 			img, name = self.data[idx], self.names[idx]
 		else:
-			img, name = torch.load(os.path.join(self.tmp, 'processed_tensors',self.data[idx])), self.names[idx]
+			img, name = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx])), self.names[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:

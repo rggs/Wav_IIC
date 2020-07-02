@@ -14,16 +14,19 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class WaveletDataset(Dataset):
-	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp'):
+	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp', one_tnsr=False):
 		self.root=root
 		self.transform=transform
 		self.train=train
 		self.target_transform=target_transform
 		self.tmp=temp
+		self.one_tnsr=one_tnsr
 		
 		self.names=np.load(os.path.join(self.root,'names_array.npy'))
-		#self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
-		self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
+		if self.one_tnsr:
+			self.data=torch.load(os.path.join(self.root_dir,'image_tensor.pt'))
+		else:
+			self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
 		
 		self.data.sort()
 		self.names.sort()
@@ -35,8 +38,10 @@ class WaveletDataset(Dataset):
 	def __getitem__(self,idx):
 
 		#This one is if you load the whole tensor:
-		#img, name = self.data[idx], self.names[idx]
-		img, name = torch.load(os.path.join(self.tmp, 'processed_tensors',self.data[idx])), self.names[idx]
+		if self.one_tnsr:
+			img, name = self.data[idx], self.names[idx]
+		else:
+			img, name = torch.load(os.path.join(self.tmp, 'processed_tensors',self.data[idx])), self.names[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:

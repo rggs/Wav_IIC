@@ -39,7 +39,7 @@ class WaveletDataset(Dataset):
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:
-			img=self.transorm(img)
+			img=self.transform(img)
 			
 		if self.target_transform is not None:
             		name = self.target_transform(name)

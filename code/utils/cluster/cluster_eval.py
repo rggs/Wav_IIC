@@ -49,7 +49,8 @@ def _clustering_get_data(config, net, dataloader, sobel=False,
     assert (len(x_outs[0].shape) == 2)
 
     #num_test_curr = np.array(flat_targets).shape[0]     #Originally flat_targets.shape[0], which gave 'tuple has no attribute size'
-    print(flat_targets)
+    #print(flat_targets)
+    flat_targets.shape[0]
     num_test_curr = flat_targets.shape[0]
     num_test += num_test_curr
 

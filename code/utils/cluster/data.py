@@ -423,7 +423,7 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
       imgs_curr = dataset_class(
         root=config.dataset_root,
         transform=tf3,
-        train=train_partition,
+        train=partition,
         target_transform=target_transform, one_tnsr=config.one_tnsr)
       
     else:

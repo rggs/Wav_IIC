@@ -9,6 +9,7 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 from PIL import Image
 import glob
+from sklearn import preprocessing
 
 # Ignore warnings
 import warnings
@@ -24,11 +25,17 @@ class WaveletDataset(Dataset):
 		self.one_tnsr=one_tnsr
 		
 		self.names=np.load(os.path.join(self.root,'names_array.npy'))
+		self.names.sort()
+		######
+		le = preprocessing.LabelEncoder()
+		self.targets = le.fit_transform(self.names)
+		######
 		if self.one_tnsr:
 			self.data=torch.load(os.path.join(self.root,'image_tensor.pt'))
 		else:
 			#self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
 			self.data=glob.glob(os.path.join(self.root,'processed_tensors','*.pt'))
+			self.data.sort()
 		
 		self.data.sort()
 		self.names.sort()
@@ -41,15 +48,15 @@ class WaveletDataset(Dataset):
 
 		#This one is if you load the whole tensor:
 		if self.one_tnsr:
-			img, name = self.data[idx], self.names[idx]
+			img, target = self.data[idx], self.targets[idx]
 		else:
-			img, name = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx])), self.names[idx]
+			img, target = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx])), self.targets[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:
 			img=self.transform(img)
 			
 		if self.target_transform is not None:
-            		name = self.target_transform(name)
+            		target = self.target_transform(target)
 		
-		return img, name
+		return img, target

@@ -61,6 +61,9 @@ class WaveletDataset(Dataset):
 			img, target = torch.load(os.path.join(self.root, self.folder_name,self.data[idx])), self.targets[idx]
 		img = Image.fromarray(img.numpy())
 		
+		#This is an annoying necessity because PIL doesn't have their 32-float pixel val s*** together
+		img=img.convert('L')
+		
 		if self.transform is not None:
 			img=self.transform(img)
 			

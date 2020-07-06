@@ -16,25 +16,33 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class WaveletDataset(Dataset):
-	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp', one_tnsr=False):
+	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp', one_tnsr=False, small=False):
 		self.root=root
 		self.transform=transform
 		self.train=train
 		self.target_transform=target_transform
 		self.tmp=temp
 		self.one_tnsr=one_tnsr
+		self.small=small
+		self.folder_name='processed_tensors'
 		
 		self.names=np.load(os.path.join(self.root,'names_array.npy'))
+		
+		if self.small:
+			self.folder_name='small_processed_tensors'
+			self.names=np.load(os.path.join(self.root,'small_names_array.npy'))
+			
 		self.names.sort()
 		######
 		le = preprocessing.LabelEncoder()
 		self.targets = le.fit_transform(self.names)
 		######
+			
 		if self.one_tnsr:
 			self.data=torch.load(os.path.join(self.root,'image_tensor.pt'))
 		else:
 			#self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
-			self.data=glob.glob(os.path.join(self.root,'processed_tensors','*.pt'))
+			self.data=glob.glob(os.path.join(self.root,self.folder_name,'*.pt'))
 			self.data.sort()
 		
 		self.data.sort()
@@ -50,7 +58,7 @@ class WaveletDataset(Dataset):
 		if self.one_tnsr:
 			img, target = self.data[idx], self.targets[idx]
 		else:
-			img, target = torch.load(os.path.join(self.root, 'processed_tensors',self.data[idx])), self.targets[idx]
+			img, target = torch.load(os.path.join(self.root, self.folder_name,self.data[idx])), self.targets[idx]
 		img = Image.fromarray(img.numpy())
 		
 		if self.transform is not None:

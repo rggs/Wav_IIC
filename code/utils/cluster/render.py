@@ -44,21 +44,23 @@ def save_progress(config, net, mapping_assignment_dataloader,
     _clustering_get_data(config, net, mapping_test_dataloader, sobel=sobel,
                          using_IR=using_IR, get_soft=True)
   soft_preds = soft_predss_all[best_sub_head]
-
-  num_samples, C = soft_preds.shape
-  assert (C == config.gt_k)
-  reordered_soft_preds = torch.zeros((num_samples, config.gt_k),
-                                     dtype=soft_preds.dtype).cuda()
-  for pred_i, target_i in match:
-    reordered_soft_preds[:, GT_TO_ORDER[target_i]] += \
-      soft_preds[:, pred_i]  # 1-1 for IIC
-  reordered_soft_preds = reordered_soft_preds.cpu().numpy()
   
   if config.dataset == "WAVELET":
-    np.save(os.path.join(prog_out_dir,"best_preds_arr"), reordered_soft_preds)
+    np.save(os.path.join(prog_out_dir,"best_preds_arr"), soft_preds)
+
 
     
   else:
+    num_samples, C = soft_preds.shape
+    assert (C == config.gt_k)
+    reordered_soft_preds = torch.zeros((num_samples, config.gt_k),
+                                       dtype=soft_preds.dtype).cuda()
+    for pred_i, target_i in match:
+      reordered_soft_preds[:, GT_TO_ORDER[target_i]] += \
+        soft_preds[:, pred_i]  # 1-1 for IIC
+    reordered_soft_preds = reordered_soft_preds.cpu().numpy()
+    
+    
     # render point cloud in GT order ---------------------------------------------
     hues = torch.linspace(0.0, 1.0, config.gt_k + 1)[0:-1]  # ignore last one
     best_colours = [list((np.array(hsv_to_rgb(hue, 0.8, 0.8)) * 255.).astype(

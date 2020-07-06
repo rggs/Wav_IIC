@@ -46,8 +46,10 @@ def _hungarian_match(flat_preds, flat_targets, preds_k, targets_k):
       num_correct[c1, c2] = votes
 
   # num_correct is small
-  match = linear_sum_assignment(num_samples - num_correct)
-  print(match)
+  temp = linear_sum_assignment(num_samples - num_correct)
+  match=[]
+  for i in range(len(temp[0])):
+    match.append((temp[0][i], temp[1][i]))
 
   # return as list of tuples, out_c to gt_c
   res = []

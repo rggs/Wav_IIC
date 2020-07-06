@@ -580,6 +580,11 @@ def create_basic_clustering_dataloaders(config):
 
   # Change these according to your data:
   greyscale = False
+  if config.dataset == 'WAVELET':
+    greyscale=True
+    train_data_path = os.path.join(config.dataset_root, "train")
+    test_val_data_path = os.path.join(config.dataset_root, "none")
+    test_data_path = os.path.join(config.dataset_root, "none")
   train_data_path = os.path.join(config.dataset_root, "train")
   test_val_data_path = os.path.join(config.dataset_root, "none")
   test_data_path = os.path.join(config.dataset_root, "none")
@@ -593,31 +598,61 @@ def create_basic_clustering_dataloaders(config):
 
   # Training data:
   # main output head (B), auxiliary overclustering head (A), same data for both
-  dataloaders_head_B = [torch.utils.data.DataLoader(
-    torchvision.datasets.ImageFolder(root=train_data_path, transform=tf1),
-    batch_size=config.dataloader_batch_sz,
-    shuffle=False,
-    num_workers=0,
-    drop_last=False)] + \
-                       [torch.utils.data.DataLoader(
-                         torchvision.datasets.ImageFolder(root=train_data_path, transform=tf2),
-                         batch_size=config.dataloader_batch_sz,
-                         shuffle=False,
-                         num_workers=0,
-                         drop_last=False) for _ in range(config.num_dataloaders)]
+  
+  if config.dataset=='WAVELET':
+    dataloaders_head_B = [torch.utils.data.DataLoader(
+      WaveletDataset(root=config.dataset_root, transform=tf1, one_tnsr=config.one_tnsr, small=config.small),
+      batch_size=config.dataloader_batch_sz,
+      shuffle=False,
+      num_workers=0,
+      drop_last=False)] + \
+                         [torch.utils.data.DataLoader(
+                           WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small),
+                           batch_size=config.dataloader_batch_sz,
+                           shuffle=False,
+                           num_workers=0,
+                           drop_last=False) for _ in range(config.num_dataloaders)]
 
-  dataloaders_head_A = [torch.utils.data.DataLoader(
-    torchvision.datasets.ImageFolder(root=train_data_path, transform=tf1),
-    batch_size=config.dataloader_batch_sz,
-    shuffle=False,
-    num_workers=0,
-    drop_last=False)] + \
-                       [torch.utils.data.DataLoader(
-                         torchvision.datasets.ImageFolder(root=train_data_path, transform=tf2),
-                         batch_size=config.dataloader_batch_sz,
-                         shuffle=False,
-                         num_workers=0,
-                         drop_last=False) for _ in range(config.num_dataloaders)]
+    dataloaders_head_A = [torch.utils.data.DataLoader(
+      WaveletDataset(root=train_data_path, transform=tf1, one_tnsr=config.one_tnsr, small=config.small),
+      batch_size=config.dataloader_batch_sz,
+      shuffle=False,
+      num_workers=0,
+      drop_last=False)] + \
+                         [torch.utils.data.DataLoader(
+                           WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small),
+                           batch_size=config.dataloader_batch_sz,
+                           shuffle=False,
+                           num_workers=0,
+                           drop_last=False) for _ in range(config.num_dataloaders)]
+
+  else: 
+    dataloaders_head_B = [torch.utils.data.DataLoader(
+      torchvision.datasets.ImageFolder(root=train_data_path, transform=tf1),
+      batch_size=config.dataloader_batch_sz,
+      shuffle=False,
+      num_workers=0,
+      drop_last=False)] + \
+                         [torch.utils.data.DataLoader(
+                           torchvision.datasets.ImageFolder(root=train_data_path, transform=tf2),
+                           batch_size=config.dataloader_batch_sz,
+                           shuffle=False,
+                           num_workers=0,
+                           drop_last=False) for _ in range(config.num_dataloaders)]
+
+    dataloaders_head_A = [torch.utils.data.DataLoader(
+      torchvision.datasets.ImageFolder(root=train_data_path, transform=tf1),
+      batch_size=config.dataloader_batch_sz,
+      shuffle=False,
+      num_workers=0,
+      drop_last=False)] + \
+                         [torch.utils.data.DataLoader(
+                           torchvision.datasets.ImageFolder(root=train_data_path, transform=tf2),
+                           batch_size=config.dataloader_batch_sz,
+                           shuffle=False,
+                           num_workers=0,
+                           drop_last=False) for _ in range(config.num_dataloaders)]
+  
 
   # Testing data (labelled):
   mapping_assignment_dataloader, mapping_test_dataloader = None, None

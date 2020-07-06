@@ -318,7 +318,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
         root=config.dataset_root,
         transform=tf1,
         train=train_partition,
-        target_transform=target_transform, one_tnsr=config.one_tnsr)
+        target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small)
       
     else:
       train_imgs_curr = dataset_class(
@@ -363,7 +363,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
           root=config.dataset_root,
           transform=tf2,
           train=train_partition,
-          target_transform=target_transform, one_tnsr=config.one_tnsr)
+          target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small)
         
       else:
         train_imgs_tf_curr = dataset_class(
@@ -424,7 +424,7 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
         root=config.dataset_root,
         transform=tf3,
         train=partition,
-        target_transform=target_transform, one_tnsr=config.one_tnsr)
+        target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small)
       
     else:
       imgs_curr = dataset_class(

@@ -48,7 +48,7 @@ def save_progress(config, net, mapping_assignment_dataloader,
   if config.dataset == "WAVELET":
     np.save(os.path.join(prog_out_dir,"soft_preds_arr"), soft_preds.cpu().numpy())
     np.save(os.path.join(prog_out_dir,"flat_preds_arr"), np.array(flat_predss_all))
-    np.save(os.path.join(prog_out_dir,"flat_targets_arr"), np.array(flat_targets_all))
+    np.save(os.path.join(prog_out_dir,"flat_targets_arr"), flat_targets_all.cpu().numpy())
 
 
     

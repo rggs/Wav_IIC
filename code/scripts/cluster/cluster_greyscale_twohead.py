@@ -413,6 +413,7 @@ def train(render_count=-1):
     # Eval
     # -----------------------------------------------------------------------
     ####Comment out for unlabelled data:
+    is_best=None
     '''
     sub_head = None
     if config.select_sub_head_on_loss:
@@ -429,6 +430,7 @@ def train(render_count=-1):
     if config.double_eval:
       print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
     sys.stdout.flush()
+    '''
 
     axarr[0].clear()
     axarr[0].plot(config.epoch_acc)
@@ -468,7 +470,7 @@ def train(render_count=-1):
     fig.tight_layout()
     fig.canvas.draw_idle()
     fig.savefig(os.path.join(config.out_dir, "plots.png"))
-
+    
     if is_best or (e_i % config.save_freq == 0):
       net.module.cpu()
 
@@ -507,5 +509,5 @@ def train(render_count=-1):
 
     if config.test_code:
       exit(0)
-    '''
+    
 train()

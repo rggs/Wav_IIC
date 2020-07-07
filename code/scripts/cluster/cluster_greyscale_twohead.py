@@ -268,12 +268,13 @@ def train(render_count=-1):
                      mapping_test_dataloader=mapping_test_dataloader,
                      sobel=False,
                      use_sub_head=sub_head)
-    '''
+    
     print(
       "Pre: time %s: \n %s" % (datetime.now(), nice(config.epoch_stats[-1])))
     if config.double_eval:
       print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
     sys.stdout.flush()
+    '''
     next_epoch = 1
 
   fig, axarr = plt.subplots(6 + 2 * int(config.double_eval), sharex=False,

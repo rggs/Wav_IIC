@@ -258,6 +258,8 @@ def train(render_count=-1):
     config.epoch_loss_no_lamb_head_B = []
 
     sub_head = None
+    #Commented out for unlabelled data
+    '''
     if config.select_sub_head_on_loss:
       sub_head = get_subhead_using_loss(config, dataloaders_head_B, net,
                                         sobel=False, lamb=config.lamb_B)
@@ -266,7 +268,7 @@ def train(render_count=-1):
                      mapping_test_dataloader=mapping_test_dataloader,
                      sobel=False,
                      use_sub_head=sub_head)
-
+    '''
     print(
       "Pre: time %s: \n %s" % (datetime.now(), nice(config.epoch_stats[-1])))
     if config.double_eval:

@@ -210,7 +210,7 @@ def train(render_count=-1):
     optimiser.load_state_dict(
       torch.load(os.path.join(config.out_dir, opt_name)))
     
-  print('Optimizing done. time %s: ' % (datetime.now())
+  print('Optimizing done. time %s: ' % (datetime.now()))
 
   heads = ["B", "A"]
   if config.head_A_first:

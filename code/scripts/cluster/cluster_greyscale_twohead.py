@@ -430,15 +430,16 @@ def train(render_count=-1):
     if config.double_eval:
       print("double eval: \n %s" % (nice(config.double_eval_stats[-1])))
     sys.stdout.flush()
-    '''
+    
 
     axarr[0].clear()
     axarr[0].plot(config.epoch_acc)
     axarr[0].set_title("acc (best), top: %f" % max(config.epoch_acc))
-
+    
     axarr[1].clear()
     axarr[1].plot(config.epoch_avg_subhead_acc)
     axarr[1].set_title("acc (avg), top: %f" % max(config.epoch_avg_subhead_acc))
+    '''
 
     axarr[2].clear()
     axarr[2].plot(config.epoch_loss_head_A)

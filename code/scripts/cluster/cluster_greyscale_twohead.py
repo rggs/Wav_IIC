@@ -183,25 +183,34 @@ else:
 
 # Model ------------------------------------------------------------------------
 def train(render_count=-1):
+  print('Creating dataloaders. time %s: ' % (datetime.now()))
   dataloaders_head_A, dataloaders_head_B, \
   mapping_assignment_dataloader, mapping_test_dataloader = \
     cluster_twohead_create_dataloaders(config)
+  print('Dataloaders made. time %s: ' % (datetime.now()))
+  
 
   net = archs.__dict__[config.arch](config)
   if config.restart:
     model_path = os.path.join(config.out_dir, net_name)
     net.load_state_dict(
       torch.load(model_path, map_location=lambda storage, loc: storage))
-
+    
+  print('Doing net.cuda and net.train step. time %s: ' % (datetime.now()))
+   
   net.cuda()
   net = torch.nn.DataParallel(net)
   net.train()
+        
+  print('Done net.cuda and net.train'+'\nOptimizing. time %s: ' % (datetime.now()))
 
   optimiser = get_opt(config.opt)(net.module.parameters(), lr=config.lr)
   if config.restart:
     print("loading latest opt")
     optimiser.load_state_dict(
       torch.load(os.path.join(config.out_dir, opt_name)))
+    
+  print('Optimizing done. time %s: ' % (datetime.now())
 
   heads = ["B", "A"]
   if config.head_A_first:

@@ -409,7 +409,8 @@ def train(render_count=-1):
 
     # Eval
     # -----------------------------------------------------------------------
-
+    ####Comment out for unlabelled data:
+    '''
     sub_head = None
     if config.select_sub_head_on_loss:
       sub_head = get_subhead_using_loss(config, dataloaders_head_B, net,
@@ -503,5 +504,5 @@ def train(render_count=-1):
 
     if config.test_code:
       exit(0)
-
+    '''
 train()

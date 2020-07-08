@@ -35,11 +35,11 @@ class WaveletDataset(Dataset):
 		self.names.sort()
 		######
 		#Tried giving each one a number, but that doesn't seem to work
-		#le = preprocessing.LabelEncoder()
-		#self.targets = le.fit_transform(self.names)
+		le = preprocessing.LabelEncoder()
+		self.targets = le.fit_transform(self.names)
 		
 		#Trying with everything just being ones:
-		self.targets=np.ones(len(self.names))
+		#self.targets=np.ones(len(self.names))
 		######
 			
 		if self.one_tnsr:

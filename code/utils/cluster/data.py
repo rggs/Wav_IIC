@@ -87,27 +87,35 @@ def cluster_twohead_create_dataloaders(config):
 
   print("Making datasets with %s and %s" % (dataset_class, target_transform))
   sys.stdout.flush()
+  
+  print('Making dataloaders head A. time %s: ' % (datetime.now()))
 
   dataloaders_head_A = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
                         partitions=config.train_partitions_head_A,
                         target_transform=target_transform)
+  
+  print('Making dataloaders head B. time %s: ' % (datetime.now()))
 
   dataloaders_head_B = \
     _create_dataloaders(config, dataset_class, tf1, tf2,
                         partitions=config.train_partitions_head_B,
                         target_transform=target_transform)
+  
+  print('Mapping assignment dataloader. time %s: ' % (datetime.now()))
 
   mapping_assignment_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
                            partitions=config.mapping_assignment_partitions,
                            target_transform=target_transform)
+  
+  print('Mapping test dataloader. time %s: ' % (datetime.now()))
 
   mapping_test_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
                            partitions=config.mapping_test_partitions,
                            target_transform=target_transform)
-
+  
   return dataloaders_head_A, dataloaders_head_B, \
          mapping_assignment_dataloader, mapping_test_dataloader
 

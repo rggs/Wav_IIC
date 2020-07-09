@@ -344,7 +344,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
   train_dataloader = torch.utils.data.DataLoader(train_imgs,
                                                  batch_size=int(config.dataloader_batch_sz),
                                                  shuffle=shuffle,
-                                                 num_workers=4,
+                                                 num_workers=24,
                                                  drop_last=False)
 
   if not shuffle:
@@ -390,7 +390,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
       torch.utils.data.DataLoader(train_imgs_tf,
                                   batch_size=config.dataloader_batch_sz,
                                   shuffle=shuffle,
-                                  num_workers=4,
+                                  num_workers=24,
                                   drop_last=False)
 
     if not shuffle:
@@ -457,7 +457,7 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
                                            batch_size=config.batch_sz,
                                            # full batch
                                            shuffle=shuffle,
-                                           num_workers=4,
+                                           num_workers=24,
                                            drop_last=False)
 
   if not shuffle:
@@ -612,26 +612,26 @@ def create_basic_clustering_dataloaders(config):
       WaveletDataset(root=config.dataset_root, transform=tf1, one_tnsr=config.one_tnsr, small=config.small),
       batch_size=config.dataloader_batch_sz,
       shuffle=False,
-      num_workers=4,
+      num_workers=24,
       drop_last=False)] + \
                          [torch.utils.data.DataLoader(
                            WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small),
                            batch_size=config.dataloader_batch_sz,
                            shuffle=False,
-                           num_workers=4,
+                           num_workers=24,
                            drop_last=False) for _ in range(config.num_dataloaders)]
 
     dataloaders_head_A = [torch.utils.data.DataLoader(
       WaveletDataset(root=train_data_path, transform=tf1, one_tnsr=config.one_tnsr, small=config.small),
       batch_size=config.dataloader_batch_sz,
       shuffle=False,
-      num_workers=4,
+      num_workers=24,
       drop_last=False)] + \
                          [torch.utils.data.DataLoader(
                            WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small),
                            batch_size=config.dataloader_batch_sz,
                            shuffle=False,
-                           num_workers=4,
+                           num_workers=24,
                            drop_last=False) for _ in range(config.num_dataloaders)]
 
   else: 
@@ -669,14 +669,14 @@ def create_basic_clustering_dataloaders(config):
       torchvision.datasets.ImageFolder(test_val_data_path, transform=tf3),
       batch_size=config.batch_sz,
       shuffle=False,
-      num_workers=4,
+      num_workers=24,
       drop_last=False)
 
     mapping_test_dataloader = torch.utils.data.DataLoader(
       torchvision.datasets.ImageFolder(test_data_path, transform=tf3),
       batch_size=config.batch_sz,
       shuffle=False,
-      num_workers=4,
+      num_workers=24,
       drop_last=False)
 
   return dataloaders_head_A, dataloaders_head_B, \

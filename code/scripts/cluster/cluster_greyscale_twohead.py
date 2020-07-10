@@ -115,6 +115,7 @@ parser.add_argument("--no_flip", dest="no_flip", default=False,
 
 parser.add_argument("--one_tnsr", default=False, action="store_true")
 parser.add_argument("--small", default=False, action="store_true")
+parser.add_argument("--num_workers", default=0, type=int)
 
 config = parser.parse_args()
 

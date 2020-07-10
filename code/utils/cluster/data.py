@@ -105,8 +105,6 @@ def cluster_twohead_create_dataloaders(config):
   print('Mapping assignment dataloader. time %s: ' % (datetime.now()))
 
   
-  #Get rid of these because they're only used in eval
-  '''
   mapping_assignment_dataloader = \
     _create_mapping_loader(config, dataset_class, tf3,
                            partitions=config.mapping_assignment_partitions,
@@ -119,9 +117,6 @@ def cluster_twohead_create_dataloaders(config):
                            partitions=config.mapping_test_partitions,
                            target_transform=target_transform)
                            
-  '''
-  mapping_assignment_dataloader=None
-  mapping_test_dataloader=None
   
   return dataloaders_head_A, dataloaders_head_B, \
          mapping_assignment_dataloader, mapping_test_dataloader

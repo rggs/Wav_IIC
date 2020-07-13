@@ -328,7 +328,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
         root=config.dataset_root,
         transform=tf1,
         train=train_partition,
-        target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small)
+        target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac)
       
     else:
       train_imgs_curr = dataset_class(
@@ -373,7 +373,7 @@ def _create_dataloaders(config, dataset_class, tf1, tf2,
           root=config.dataset_root,
           transform=tf2,
           train=train_partition,
-          target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small)
+          target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac)
         
       else:
         train_imgs_tf_curr = dataset_class(
@@ -434,7 +434,7 @@ def _create_mapping_loader(config, dataset_class, tf3, partitions,
         root=config.dataset_root,
         transform=tf3,
         train=partition,
-        target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small)
+        target_transform=target_transform, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac)
       
     else:
       imgs_curr = dataset_class(
@@ -611,26 +611,26 @@ def create_basic_clustering_dataloaders(config):
   
   if config.dataset=='WAVELET':
     dataloaders_head_B = [torch.utils.data.DataLoader(
-      WaveletDataset(root=config.dataset_root, transform=tf1, one_tnsr=config.one_tnsr, small=config.small),
+      WaveletDataset(root=config.dataset_root, transform=tf1, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac),
       batch_size=config.dataloader_batch_sz,
       shuffle=False,
       num_workers=config.num_workers,
       drop_last=False)] + \
                          [torch.utils.data.DataLoader(
-                           WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small),
+                           WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac),
                            batch_size=config.dataloader_batch_sz,
                            shuffle=False,
                            num_workers=config.num_workers,
                            drop_last=False) for _ in range(config.num_dataloaders)]
 
     dataloaders_head_A = [torch.utils.data.DataLoader(
-      WaveletDataset(root=train_data_path, transform=tf1, one_tnsr=config.one_tnsr, small=config.small),
+      WaveletDataset(root=train_data_path, transform=tf1, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac),
       batch_size=config.dataloader_batch_sz,
       shuffle=False,
       num_workers=config.num_workers,
       drop_last=False)] + \
                          [torch.utils.data.DataLoader(
-                           WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small),
+                           WaveletDataset(root=train_data_path, transform=tf2, one_tnsr=config.one_tnsr, small=config.small, data_frac=config.data_frac),
                            batch_size=config.dataloader_batch_sz,
                            shuffle=False,
                            num_workers=config.num_workers,

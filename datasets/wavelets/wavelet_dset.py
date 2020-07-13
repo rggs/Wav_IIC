@@ -16,7 +16,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class WaveletDataset(Dataset):
-	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp', one_tnsr=False, small=False):
+	def __init__(self, root, transform=None, train=True, target_transform=None, temp='/tmp', one_tnsr=False, small=False, data_frac=1.0):
 		self.root=root
 		self.transform=transform
 		self.train=train
@@ -25,6 +25,7 @@ class WaveletDataset(Dataset):
 		self.one_tnsr=one_tnsr
 		self.small=small
 		self.folder_name='processed_tensors'
+		self.data_frac=data_frac
 		
 		self.names=np.load(os.path.join(self.root,'names_array.npy'))
 		
@@ -46,7 +47,7 @@ class WaveletDataset(Dataset):
 			self.data=torch.load(os.path.join(self.root,'image_tensor.pt'))
 		else:
 			#self.data=os.listdir(os.path.join(self.root,'processed_tensors'))
-			self.data=glob.glob(os.path.join(self.root,self.folder_name,'*.pt'))
+			self.data=glob.glob(os.path.join(self.root,self.folder_name,'*.pt'))[:int(self.data_frac*len(self.names))]
 			self.data.sort()
 		
 		self.data.sort()
@@ -54,7 +55,7 @@ class WaveletDataset(Dataset):
 		
 	
 	def __len__(self):
-		return len(self.names)
+		return int(self.data_frac*len(self.names))
 	
 	def __getitem__(self,idx):
 

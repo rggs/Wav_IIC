@@ -370,7 +370,7 @@ def train(render_count=-1):
           x_outs = net(all_imgs)
           x_tf_outs = net(all_imgs_tf)
           
-          print(x_outs[0])
+          print(x_outs[0].shape)
 
           avg_loss_batch = None  # avg over the heads
           avg_loss_no_lamb_batch = None

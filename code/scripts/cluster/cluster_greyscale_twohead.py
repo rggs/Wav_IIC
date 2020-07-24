@@ -370,7 +370,7 @@ def train(render_count=-1):
           print(all_imgs.cpu().shape)
           
           x_outs = net(all_imgs)
-          print(x_outs.cpu().shape)
+          print(x_outs.shape)
           x_tf_outs = net(all_imgs_tf)
           
           print(x_outs[0].shape)

@@ -367,10 +367,7 @@ def train(render_count=-1):
 
           assert (all_imgs.requires_grad and all_imgs_tf.requires_grad)
           
-          print(all_imgs.cpu().shape)
-          
           x_outs = net(all_imgs)
-          print(np.array(x_outs).shape)
           x_tf_outs = net(all_imgs_tf)
           
           avg_loss_batch = None  # avg over the heads

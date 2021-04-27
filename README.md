@@ -1,3 +1,5 @@
+# This is a fork of https://github.com/xu-ji/IIC
+
 # Invariant Information Clustering for Unsupervised Image Classification and Segmentation
 
 This repository contains PyTorch code for the <a href="https://arxiv.org/abs/1807.06653">IIC paper</a>.
